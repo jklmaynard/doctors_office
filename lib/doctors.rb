@@ -29,4 +29,16 @@ class Doctor
     self.name().==(another_doctor.name()).&(self.specialty().==(another_doctor.specialty())).&(self.id().==(another_doctor.id()))
   end
 
+  define_method(:patients) do
+    list_patients = []
+    patients = DB.exec("SELECT * FROM patients WHERE doctor_id = #{self.id()}")
+    patients.each() do |patient|
+      name = patient.fetch("name")
+      doctor_id = patient.fetch("doctor_id").to_i()
+      birthday = patient.fetch("birthday")
+      list_patients.push(Patient.new({:name => name, :doctor_id => doctor_id, :birthday => birthday}))
+    end
+    list_patients
+  end
+
 end

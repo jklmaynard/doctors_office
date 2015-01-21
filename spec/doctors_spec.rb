@@ -37,4 +37,17 @@ describe(Doctor) do
       expect(doctor1).to(eq(doctor2))
     end
   end
+
+  describe('#patients') do
+    it('returns an array of patients for a single doctor') do
+      test_doctor = Doctor.new({:name => "Tom Baker", :specialty => "scarf", :id => nil})
+      test_doctor.save()
+      patient1 = Patient.new({:name => "Bobby Ray", :doctor_id => test_doctor.id(), :birthday => "1995-09-01 00:00:00"})
+      patient1.save()
+      patient2 = Patient.new({:name => "Bobby Bee", :doctor_id => test_doctor.id(), :birthday => "1998-05-01 00:00:00"})
+      patient2.save()
+      expect(test_doctor.patients()).to(eq([patient1, patient2]))
+    end
+  end
+
 end
